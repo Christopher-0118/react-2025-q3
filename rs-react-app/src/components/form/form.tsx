@@ -1,5 +1,6 @@
 import { Component, type ChangeEvent, type FormEvent } from 'react';
-import type { IFormState, IFormProps } from '../type';
+import type { IFormState, IFormProps } from '../../type';
+import './form.css';
 
 class Form extends Component<IFormProps, IFormState> {
   constructor(props: IFormProps) {
@@ -15,8 +16,8 @@ class Form extends Component<IFormProps, IFormState> {
     this.props.onSubmit(this.state.query);
   };
 
-  handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
-    this.setState({ query: e.target.value });
+  handleChange = (event: ChangeEvent<HTMLInputElement>): void => {
+    this.setState({ query: event.target.value });
   };
 
   render() {
@@ -26,6 +27,7 @@ class Form extends Component<IFormProps, IFormState> {
           type="text"
           id="search-input"
           value={this.state.query}
+          onChange={this.handleChange}
           placeholder="Looking for smth?"
         ></input>
         <input type="submit" className="search-button" value="Search"></input>

@@ -1,7 +1,8 @@
 import { Component } from 'react';
 import type { IAppState } from './type';
 import './App.css';
-import Form from './components/form';
+import Form from './components/form/form';
+import Result from './components/results/results';
 
 class App extends Component<object, IAppState> {
   constructor(props: object) {
@@ -38,7 +39,9 @@ class App extends Component<object, IAppState> {
   };
 
   handleSubmit = (query: string): void => {
-    console.log(query);
+    localStorage.setItem('searchQuery', query);
+    this.setState({ searchQuery: query });
+    //console.log(query);
     this.fetchData('');
   };
 
@@ -52,12 +55,7 @@ class App extends Component<object, IAppState> {
           />
         </header>
         <main className="main">
-          <div className="result-panel">
-            <div className="item">
-              <div className="items-name"></div>
-              <div className="items-description"></div>
-            </div>
-          </div>
+          <Result />
         </main>
       </>
     );
