@@ -1,8 +1,8 @@
 import { Component } from 'react';
-import type { IAppState } from './type';
-import './App.css';
+import type { IAppState, IResult } from './type';
 import Form from './components/form/form';
-import Result from './components/results/results';
+import Results from './components/results/results';
+import './App.css';
 
 class App extends Component<object, IAppState> {
   constructor(props: object) {
@@ -13,36 +13,64 @@ class App extends Component<object, IAppState> {
       searchQuery: savedQuery,
       results: [],
       error: null,
+      loading: false,
     };
   }
 
   componentDidMount(): void {
     this.fetchData(this.state.searchQuery);
-    console.log('we were there');
   }
 
-  fetchData = async (query: string) => {
+  fetchData = async (term: string) => {
     try {
-      const url: string = query.trim()
-        ? `https://pokeapi.co/api/v2/${query.trim()}/`
-        : `https://pokeapi.co/api/v2/ability/?limit=20&offset=20`;
+      this.setState({ loading: true, error: null });
 
-      const result = await fetch(url);
+      const query = term.trim().toLowerCase();
 
-      if (!result.ok) throw new Error(`error: ${result.status}`);
+      let results: IResult[] = [];
 
-      const data = await result.json();
-      console.log(data.results);
-    } catch (e: unknown) {
-      if (e instanceof Error) this.setState({ error: e.message });
+      if (!query) {
+        const res = await fetch('https://pokeapi.co/api/v2/pokemon?');
+
+        if (!res.ok) throw new Error(`Error: ${res.status}`);
+
+        const data = await res.json();
+        const promises = data.results.map(
+          async (pokemon: { name: string; url: string }) => {
+            const detailRes = await fetch(pokemon.url);
+            const detailData = await detailRes.json();
+            return {
+              name: detailData.name,
+              description: `Weight: ${detailData.weight}, Height: ${detailData.height}`,
+            };
+          }
+        );
+        results = await Promise.all(promises);
+      } else {
+        const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${query}`);
+
+        if (!res.ok) throw new Error('Pokémon not found');
+
+        const data = await res.json();
+        results = [
+          {
+            name: data.name,
+            description: `Weight: ${data.weight}, Height: ${data.height}`,
+          },
+        ];
+      }
+
+      this.setState({ results, loading: false });
+    } catch (error: unknown) {
+      if (error instanceof Error)
+        this.setState({ error: error.message, loading: false });
     }
   };
 
   handleSubmit = (query: string): void => {
     localStorage.setItem('searchQuery', query);
     this.setState({ searchQuery: query });
-    //console.log(query);
-    this.fetchData('');
+    this.fetchData(query);
   };
 
   render() {
@@ -55,7 +83,13 @@ class App extends Component<object, IAppState> {
           />
         </header>
         <main className="main">
-          <Result />
+          {this.state.loading ? (
+            <p>Loading...</p>
+          ) : this.state.error ? (
+            <p style={{ color: 'red' }}>{this.state.error}</p>
+          ) : (
+            <Results results={this.state.results} />
+          )}
         </main>
       </>
     );

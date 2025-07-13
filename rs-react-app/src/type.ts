@@ -2,6 +2,7 @@ export interface IAppState {
   searchQuery: string;
   results: IResult[];
   error: string | null;
+  loading: boolean;
 }
 
 export interface IResult {
@@ -16,4 +17,8 @@ export interface IFormState {
 export interface IFormProps {
   onSubmit: (query: string) => void;
   defaultValue: string;
+}
+
+export interface IResultProps {
+  results: IResult[];
 }

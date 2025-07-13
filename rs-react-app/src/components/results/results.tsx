@@ -1,17 +1,24 @@
 import { Component } from 'react';
+import type { IResultProps } from '../../type';
 import './results.css';
 
-class Result extends Component {
+class Results extends Component<IResultProps> {
   render() {
     return (
-      <div className="result-panel">
+      <>
         <div className="item">
-          <div className="items-name"></div>
-          <div className="items-description"></div>
+          <strong>Item</strong>
+          <strong>Description</strong>
         </div>
-      </div>
+        {this.props.results.map((item, index) => (
+          <div key={index} className={'item'}>
+            <p>{item.name}</p>
+            <p>{item.description}</p>
+          </div>
+        ))}
+      </>
     );
   }
 }
 
-export default Result;
+export default Results;

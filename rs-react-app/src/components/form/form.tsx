@@ -28,7 +28,7 @@ class Form extends Component<IFormProps, IFormState> {
           id="search-input"
           value={this.state.query}
           onChange={this.handleChange}
-          placeholder="Looking for smth?"
+          placeholder="Type the full name of the Pokémon"
         ></input>
         <input type="submit" className="search-button" value="Search"></input>
       </form>
