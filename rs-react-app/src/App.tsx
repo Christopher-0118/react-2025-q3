@@ -2,6 +2,7 @@ import { Component } from 'react';
 import type { IAppState, IResult } from './type';
 import Form from './components/form/form';
 import CardList from './components/card-list/card-list';
+import ErrorButton from './error-button/error-button';
 import './App.css';
 
 class App extends Component<object, IAppState> {
@@ -90,6 +91,7 @@ class App extends Component<object, IAppState> {
           ) : (
             <CardList results={this.state.results} />
           )}
+          <ErrorButton />
         </main>
       </>
     );

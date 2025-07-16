@@ -1,3 +1,5 @@
+import type { ReactNode } from 'react';
+
 export interface IAppState {
   searchQuery: string;
   results: IResult[];
@@ -21,4 +23,12 @@ export interface IFormProps {
 
 export interface IResultProps {
   results: IResult[];
+}
+
+export interface IErrorBoundaryState {
+  hasError: boolean;
+}
+
+export interface IErrorBoundaryProps {
+  children: ReactNode;
 }
