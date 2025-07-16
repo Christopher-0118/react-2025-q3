@@ -1,0 +1,8 @@
+.item {
+  height: 4.63%;
+  font-size: 12px;
+  border-bottom: 1px solid #ccc;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}

@@ -1,0 +1,14 @@
+.control-panel {
+  width: 100%;
+  display: flex;
+  justify-items: center;
+  justify-content: space-between;
+}
+
+#search-input {
+  width: 70%;
+}
+
+.search-button {
+  width: 25%; 
+}
