@@ -1,24 +1,22 @@
 import { Component } from 'react';
 import type { IResultProps } from '../../type';
-import './results.css';
+import Card from '../card/card';
+import './card-list.css';
 
-class Results extends Component<IResultProps> {
+class CardList extends Component<IResultProps> {
   render() {
     return (
-      <>
+      <div className="card-list">
         <div className="item">
           <strong>Item</strong>
           <strong>Description</strong>
         </div>
         {this.props.results.map((item, index) => (
-          <div key={index} className={'item'}>
-            <p>{item.name}</p>
-            <p>{item.description}</p>
-          </div>
+          <Card key={index} name={item.name} description={item.description} />
         ))}
-      </>
+      </div>
     );
   }
 }
 
-export default Results;
+export default CardList;

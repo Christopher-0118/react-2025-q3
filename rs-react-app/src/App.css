@@ -1,11 +1,10 @@
 #root {
-  width: 50%;
-  height: 100%;
+  width: 70%;
+  height: 100vh;
   display: flex;
-  justify-content: space-evenly;
-  justify-items: center;
-  align-items: center;
   flex-direction: column;
+  justify-self: center;
+  justify-content: space-evenly;
 }
 
 .header {

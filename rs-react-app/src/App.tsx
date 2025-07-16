@@ -1,7 +1,7 @@
 import { Component } from 'react';
 import type { IAppState, IResult } from './type';
 import Form from './components/form/form';
-import Results from './components/results/results';
+import CardList from './components/card-list/card-list';
 import './App.css';
 
 class App extends Component<object, IAppState> {
@@ -88,7 +88,7 @@ class App extends Component<object, IAppState> {
           ) : this.state.error ? (
             <p style={{ color: 'red' }}>{this.state.error}</p>
           ) : (
-            <Results results={this.state.results} />
+            <CardList results={this.state.results} />
           )}
         </main>
       </>
