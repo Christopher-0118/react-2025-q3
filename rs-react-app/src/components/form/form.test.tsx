@@ -2,6 +2,7 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import Form from './form';
+
 describe('Form Component Tests', () => {
   beforeEach(() => {
     localStorage.clear();
