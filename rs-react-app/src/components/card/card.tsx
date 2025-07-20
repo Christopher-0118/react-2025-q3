@@ -6,7 +6,7 @@ class Card extends Component<IResult> {
   render() {
     const { name, description } = this.props;
     return (
-      <div className={'item'}>
+      <div className={'item'} data-testid="card">
         <p>{name}</p>
         <p>{description}</p>
       </div>
