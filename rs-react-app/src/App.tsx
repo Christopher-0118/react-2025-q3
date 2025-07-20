@@ -2,7 +2,7 @@ import { Component } from 'react';
 import type { IAppState, IResult } from './type';
 import Form from './components/form/form';
 import CardList from './components/card-list/card-list';
-import ErrorButton from './error-button/error-button';
+import ErrorButton from './components/error-button/error-button';
 import './App.css';
 
 class App extends Component<object, IAppState> {

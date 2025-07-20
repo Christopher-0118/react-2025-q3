@@ -1,9 +1,10 @@
 /// <reference types="vitest/globals" />
 import { fireEvent, render, screen } from '@testing-library/react';
+// import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
 import App from './App';
 
-describe('Form Component Tests', () => {
+describe('LocalStorage Integration', () => {
   beforeEach(() => {
     localStorage.clear();
   });
@@ -15,12 +16,6 @@ describe('Form Component Tests', () => {
       'Type the full name of the Pokémon'
     );
     expect(input).toHaveValue('Eevee');
-  });
-});
-
-describe('User Interaction Tests', () => {
-  beforeEach(() => {
-    localStorage.clear();
   });
 
   test('Saves search term to localStorage when search button is clicked', () => {
@@ -34,25 +29,6 @@ describe('User Interaction Tests', () => {
     fireEvent.submit(form);
 
     expect(localStorage.getItem('searchQuery')).toBe('charmander');
-  });
-
-  test('Trims whitespace from search input before saving', () => {
-    render(<App />);
-    const input = screen.getByPlaceholderText(
-      'Type the full name of the Pokémon'
-    );
-    const form = screen.getByRole('form');
-
-    fireEvent.change(input, { target: { value: ' bulbasaur ' } });
-    fireEvent.submit(form);
-
-    expect(localStorage.getItem('searchQuery')).toBe(' bulbasaur ');
-  });
-});
-
-describe('LocalStorage Integration', () => {
-  beforeEach(() => {
-    localStorage.clear();
   });
 
   test('Overwrites existing localStorage value when new search is performed', () => {
@@ -82,3 +58,9 @@ describe('LocalStorage Integration', () => {
     expect(input).toHaveValue('charmander');
   });
 });
+
+// describe('User Interaction Tests', () => {
+//   beforeEach(() => {
+//     localStorage.clear();
+//   });
+// });

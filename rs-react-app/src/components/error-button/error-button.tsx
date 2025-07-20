@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import type { IErrorBoundaryState } from '../type';
+import type { IErrorBoundaryState } from '../../type';
 import './error-button.css';
 
 class ErrorButton extends Component<object, IErrorBoundaryState> {
