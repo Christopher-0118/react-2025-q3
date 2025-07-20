@@ -22,7 +22,7 @@ class Form extends Component<IFormProps, IFormState> {
 
   render() {
     return (
-      <form className="control-panel" onSubmit={this.handleSubmit}>
+      <form className="control-panel" role="form" onSubmit={this.handleSubmit}>
         <input
           type="text"
           id="search-input"
