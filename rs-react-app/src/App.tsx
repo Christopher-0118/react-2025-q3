@@ -1,58 +1,48 @@
-import { Component } from 'react';
-import type { IAppState, IResult } from './type';
+import { useEffect, useState } from 'react';
+import {
+  type Pokemon,
+  type PokemonListItem,
+  type PokemonResponse,
+  type Result,
+} from './type';
 import Form from './components/form/form';
 import CardList from './components/card-list/card-list';
 import ErrorButton from './components/error-button/error-button';
 import './App.css';
 
-class App extends Component<object, IAppState> {
-  constructor(props: object) {
-    super(props);
-    const savedQuery: string = localStorage.getItem('searchQuery') || '';
+const App = () => {
+  const savedQuery = localStorage.getItem('searchQuery') || '';
+  const [searchQuery, setSearchQuery] = useState<string>(savedQuery);
+  const [results, setResults] = useState<Result[]>([]);
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
 
-    this.state = {
-      searchQuery: savedQuery,
-      results: [],
-      error: null,
-      loading: false,
-    };
-  }
+  useEffect(() => {
+    fetchData(searchQuery);
+  }, []); // solve this issue!!!
 
-  componentDidMount(): void {
-    this.fetchData(this.state.searchQuery);
-  }
+  const fetchData = async (term: string) => {
+    const BASE_URL = 'https://pokeapi.co/api/v2/pokemon/';
 
-  fetchData = async (term: string) => {
     try {
-      this.setState({ loading: true, error: null });
+      setLoading(true);
+      setError(null);
 
       const query = term.trim().toLowerCase();
-
-      let results: IResult[] = [];
+      let results: Result[] = [];
 
       if (!query) {
-        const res = await fetch('https://pokeapi.co/api/v2/pokemon?');
+        const data = await getResult<PokemonResponse>(BASE_URL);
 
-        if (!res.ok) throw new Error(`Error: ${res.status}`);
-
-        const data = await res.json();
-        const promises = data.results.map(
-          async (pokemon: { name: string; url: string }) => {
-            const detailRes = await fetch(pokemon.url);
-            const detailData = await detailRes.json();
-            return {
-              name: detailData.name,
-              description: `Weight: ${detailData.weight}, Height: ${detailData.height}`,
-            };
-          }
+        if (!Array.isArray(data)) throw new Error('expected an array');
+        const promises = await data.results.map((pokemon: PokemonListItem) =>
+          getDescription(pokemon.url)
         );
+
         results = await Promise.all(promises);
       } else {
-        const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${query}`);
+        const data = await getResult<Pokemon>(BASE_URL.concat(query));
 
-        if (!res.ok) throw new Error('Pokémon not found');
-
-        const data = await res.json();
         results = [
           {
             name: data.name,
@@ -61,41 +51,59 @@ class App extends Component<object, IAppState> {
         ];
       }
 
-      this.setState({ results, loading: false });
+      setResults(results);
     } catch (error: unknown) {
-      if (error instanceof Error)
-        this.setState({ error: error.message, loading: false });
+      if (error instanceof Error) setError(error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
-  handleSubmit = (query: string): void => {
-    localStorage.setItem('searchQuery', query);
-    this.setState({ searchQuery: query });
-    this.fetchData(query);
+  const getResult = async <T = unknown,>(query: string): Promise<T> => {
+    const res = await fetch(query);
+
+    if (!res.ok) throw new Error('Pokémon not found');
+
+    const data = await res.json();
+
+    if (!data || typeof data !== 'object') throw new Error(`No data from API`);
+
+    return data as T;
   };
 
-  render() {
-    return (
-      <>
-        <header className="header">
-          <Form
-            onSubmit={this.handleSubmit}
-            defaultValue={this.state.searchQuery}
-          />
-        </header>
-        <main className="main">
-          {this.state.loading ? (
-            <p>Loading...</p>
-          ) : this.state.error ? (
-            <p style={{ color: 'red' }}>{this.state.error}</p>
-          ) : (
-            <CardList results={this.state.results} />
-          )}
-          <ErrorButton />
-        </main>
-      </>
-    );
-  }
-}
+  const getDescription = async (url: string): Promise<Result> => {
+    const detailData = await getResult<Pokemon>(url);
+
+    return {
+      name: detailData.name,
+      description: `Weight: ${detailData.weight}, Height: ${detailData.height}`,
+    };
+  };
+
+  const handleSubmit = (query: string): void => {
+    localStorage.setItem('searchQuery', query);
+    setSearchQuery(query);
+    fetchData(query);
+  };
+
+  const content = () => {
+    if (loading) return <p>Loading...</p>;
+    if (error) return <p style={{ color: 'red' }}>{error}</p>;
+    if (Array.isArray(results) && results.length)
+      return <CardList results={results} />;
+  };
+
+  return (
+    <>
+      <header className="header">
+        <Form onSubmit={handleSubmit} defaultValue={searchQuery} />
+      </header>
+      <main className="main">
+        {content()}
+        <ErrorButton />
+      </main>
+    </>
+  );
+};
 
 export default App;

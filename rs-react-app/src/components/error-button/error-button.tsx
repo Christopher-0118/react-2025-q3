@@ -18,12 +18,9 @@ class ErrorButton extends Component<object, IErrorBoundaryState> {
     }
 
     return (
-      <input
-        type="submit"
-        className="error-button"
-        onClick={this.handleClick}
-        value={'Throw Error'}
-      ></input>
+      <button className="error-button" onClick={this.handleClick}>
+        Throw Error
+      </button>
     );
   }
 }

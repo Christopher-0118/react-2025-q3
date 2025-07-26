@@ -12,17 +12,13 @@ describe('LocalStorage Integration', () => {
   test('Displays previously saved search term from localStorage on mount', () => {
     localStorage.setItem('searchQuery', 'Eevee');
     render(<App />);
-    const input = screen.getByPlaceholderText(
-      'Type the full name of the Pokémon'
-    );
+    const input = screen.getByTestId('input');
     expect(input).toHaveValue('Eevee');
   });
 
   test('Saves search term to localStorage when search button is clicked', () => {
     render(<App />);
-    const input = screen.getByPlaceholderText(
-      'Type the full name of the Pokémon'
-    );
+    const input = screen.getByTestId('input');
     const form = screen.getByRole('form');
 
     fireEvent.change(input, { target: { value: 'charmander' } });
@@ -35,9 +31,7 @@ describe('LocalStorage Integration', () => {
     localStorage.setItem('searchQuery', 'meowth');
     render(<App />);
 
-    const input = screen.getByPlaceholderText(
-      'Type the full name of the Pokémon'
-    );
+    const input = screen.getByTestId('input');
     const form = screen.getByRole('form');
 
     fireEvent.change(input, { target: { value: 'psyduck' } });
@@ -50,9 +44,7 @@ describe('LocalStorage Integration', () => {
     localStorage.setItem('searchQuery', 'psyduck');
     render(<App />);
 
-    const input = screen.getByPlaceholderText(
-      'Type the full name of the Pokémon'
-    );
+    const input = screen.getByTestId('input');
 
     fireEvent.change(input, { target: { value: 'charmander' } });
     expect(input).toHaveValue('charmander');
@@ -77,7 +69,7 @@ describe('Integration Tests', () => {
       }),
     });
 
-    global.fetch = mockFetch as unknown as typeof fetch;
+    global.fetch = mockFetch as typeof fetch;
 
     render(<App />);
 

@@ -29,8 +29,9 @@ class Form extends Component<IFormProps, IFormState> {
           value={this.state.query}
           onChange={this.handleChange}
           placeholder="Type the full name of the Pokémon"
+          data-testid="input"
         ></input>
-        <input type="submit" className="search-button" value="Search"></input>
+        <button className="search-button">Search</button>
       </form>
     );
   }
