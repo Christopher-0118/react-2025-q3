@@ -1,40 +1,30 @@
-import { Component, type ChangeEvent, type FormEvent } from 'react';
-import type { IFormState, IFormProps } from '../../type';
+import { useState, type ChangeEvent, type FormEvent } from 'react';
+import type { FormProps } from '../../type';
 import './form.css';
 
-class Form extends Component<IFormProps, IFormState> {
-  constructor(props: IFormProps) {
-    super(props);
-
-    this.state = {
-      query: props.defaultValue || '',
-    };
-  }
-
-  handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+const Form = ({ onSubmit, defaultValue = '' }: FormProps) => {
+  const [query, setQuery] = useState<string>(defaultValue);
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    this.props.onSubmit(this.state.query);
+    onSubmit(query);
+  };
+  const handleChange = (event: ChangeEvent<HTMLInputElement>): void => {
+    setQuery(event.target.value);
   };
 
-  handleChange = (event: ChangeEvent<HTMLInputElement>): void => {
-    this.setState({ query: event.target.value });
-  };
-
-  render() {
-    return (
-      <form className="control-panel" role="form" onSubmit={this.handleSubmit}>
-        <input
-          type="text"
-          id="search-input"
-          value={this.state.query}
-          onChange={this.handleChange}
-          placeholder="Type the full name of the Pokémon"
-          data-testid="input"
-        ></input>
-        <button className="search-button">Search</button>
-      </form>
-    );
-  }
-}
+  return (
+    <form className="control-panel" role="form" onSubmit={handleSubmit}>
+      <input
+        type="text"
+        id="search-input"
+        value={query}
+        onChange={handleChange}
+        placeholder="Type the full name of the Pokémon"
+        data-testid="input"
+      ></input>
+      <button className="search-button">Search</button>
+    </form>
+  );
+};
 
 export default Form;

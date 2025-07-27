@@ -1,10 +1,8 @@
-// Ответ от API для списка покемонов
 export type PokemonResponse = {
   count: number;
   results: PokemonListItem[];
 };
 
-// Каждый отдельный покемон из списка
 export type PokemonListItem = {
   name: string;
   url: string;
@@ -21,18 +19,14 @@ export type Result = {
   description: string;
 };
 
-// export interface IFormState {
-//   query: string;
-// }
+export interface ResultsList {
+  results: Result[];
+}
 
-// export interface IFormProps {
-//   onSubmit: (query: string) => void;
-//   defaultValue: string;
-// }
-
-// export interface IResultProps {
-//   results: Result[];
-// }
+export type FormProps = {
+  onSubmit: (query: string) => void;
+  defaultValue: string;
+};
 
 // export interface IErrorBoundaryState {
 //   hasError: boolean;
