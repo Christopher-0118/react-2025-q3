@@ -24,7 +24,7 @@ const App = () => {
 
   useEffect(() => {
     fetchData(searchQuery, setResults, setError, setLoading);
-  }, []);
+  }, [searchQuery]);
 
   return (
     <>
