@@ -7,13 +7,17 @@ import type {
   Result,
 } from '../../type';
 
-export const fetchData = async (
+const FetchData = async (
   term: string,
   setResults: (res: Result[]) => void,
   setError: (err: string | null) => void,
-  setLoading: (loading: boolean) => void
+  setLoading: (loading: boolean) => void,
+  page: number = 1,
+  limit: number = 20
 ) => {
   const BASE_URL = 'https://pokeapi.co/api/v2/pokemon/';
+  const offset = (page - 1) * limit;
+  const paginatedURL = `${BASE_URL}?offset=${offset}&limit=${limit}`;
   try {
     setLoading(true);
     setError(null);
@@ -22,7 +26,7 @@ export const fetchData = async (
     let results: Result[] = [];
 
     if (!query) {
-      const data = await getResult<PokemonResponse>(BASE_URL);
+      const data = await getResult<PokemonResponse>(paginatedURL);
 
       if (!data) throw new Error('expected an array');
       const promises = await data.results.map((pokemon: PokemonListItem) =>
@@ -48,3 +52,5 @@ export const fetchData = async (
     setLoading(false);
   }
 };
+
+export default FetchData;

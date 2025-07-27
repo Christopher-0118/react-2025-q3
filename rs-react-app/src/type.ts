@@ -1,3 +1,5 @@
+import type { ReactNode } from 'react';
+
 export type PokemonResponse = {
   count: number;
   results: PokemonListItem[];
@@ -19,19 +21,25 @@ export type Result = {
   description: string;
 };
 
-export interface ResultsList {
+export type ResultsList = {
   results: Result[];
-}
+};
 
 export type FormProps = {
   onSubmit: (query: string) => void;
   defaultValue: string;
 };
 
-// export interface IErrorBoundaryState {
-//   hasError: boolean;
-// }
+export type PaginationProps = {
+  currentPage: number;
+  allPages: number;
+  // OnPageChange: (page: number) => void;
+};
 
-// export interface IErrorBoundaryProps {
-//   children: ReactNode;
-// }
+export type ErrorBoundaryState = {
+  hasError: boolean;
+};
+
+export type ErrorBoundaryProps = {
+  children: ReactNode;
+};

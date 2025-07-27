@@ -1,70 +1,78 @@
 /// <reference types="vitest/globals" />
-import { render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import { vi } from 'vitest';
-import App from '../../App';
+import { getResult } from './getResult';
+import { getDescription } from './getDescription';
+import type { Pokemon, PokemonResponse } from '../../type';
+import FetchData from './fetch';
+
+vi.mock('./getResult', () => ({
+  getResult: vi.fn(),
+}));
+
+vi.mock('./getDescription', () => ({
+  getDescription: vi.fn(),
+}));
 
 describe('Integration Tests', () => {
+  const setResults = vi.fn();
+  const setError = vi.fn();
+  const setLoading = vi.fn();
+
   beforeEach(() => {
-    localStorage.clear();
     vi.restoreAllMocks();
   });
 
-  test('handles error if fetch fails', async () => {
-    localStorage.setItem('searchQuery', '');
-    global.fetch = vi.fn().mockResolvedValueOnce({
-      ok: false,
-      status: 503,
-    });
+  test('fetches a specific Pokemon when a search term is provided', async () => {
+    const mockPokemon: Pokemon = {
+      name: 'pikachu',
+      weight: 60,
+      height: 4,
+    };
 
-    render(<App />);
+    (getResult as vi.Mock).mockResolvedValue(mockPokemon);
 
-    await waitFor(() => {
-      expect(screen.getByText(/error: 503/i)).toBeInTheDocument();
-    });
+    await FetchData('pikachu', setResults, setError, setLoading);
+
+    expect(setLoading).toHaveBeenCalledWith(true);
+    expect(getResult).toHaveBeenCalledWith(
+      'https://pokeapi.co/api/v2/pokemon/pikachu'
+    );
+    expect(setResults).toHaveBeenCalledWith([
+      {
+        name: 'pikachu',
+        description: 'Weight: 60, Height: 4',
+      },
+    ]);
+    expect(setLoading).toHaveBeenCalledWith(false);
   });
 
-  test('displays list of cards', async () => {
-    localStorage.setItem('searchQuery', '');
+  test('fetches paginated Pokemon list when no search term is provided', async () => {
+    const mockList: PokemonResponse = {
+      count: 2,
+      results: [
+        { name: 'bulbasaur', url: 'url1' },
+        { name: 'charmander', url: 'url2' },
+      ],
+    };
 
-    const mockFetch = vi
-      .fn()
-      .mockResolvedValueOnce({
-        ok: true,
-        json: async () => ({
-          results: [
-            { name: 'bulbasaur', url: 'url-1' },
-            { name: 'charmander', url: 'url-2' },
-          ],
-        }),
-      })
-      .mockResolvedValueOnce({
-        ok: true,
-        json: async () => ({
-          name: 'bulbasaur',
-          weight: 69,
-          height: 7,
-        }),
-      })
-      .mockResolvedValueOnce({
-        ok: true,
-        json: async () => ({
-          name: 'charmander',
-          weight: 85,
-          height: 6,
-        }),
-      });
+    const mockDescriptions = [
+      { name: 'bulbasaur', description: 'desc1' },
+      { name: 'charmander', description: 'desc2' },
+    ];
 
-    global.fetch = mockFetch;
-
-    render(<App />);
-
-    await waitFor(() => {
-      expect(screen.getByText(/bulbasaur/i)).toBeInTheDocument();
-      expect(screen.getByText(/Weight: 69, Height: 7/i)).toBeInTheDocument();
-
-      expect(screen.getByText(/charmander/i)).toBeInTheDocument();
-      expect(screen.getByText(/Weight: 85, Height: 6/i)).toBeInTheDocument();
+    (getResult as vi.Mock).mockResolvedValue(mockList);
+    (getDescription as vi.Mock).mockImplementation((url: string) => {
+      if (url === 'url1') return mockDescriptions[0];
+      if (url === 'url2') return mockDescriptions[1];
     });
+
+    await FetchData('', setResults, setError, setLoading, 1, 20);
+
+    expect(getResult).toHaveBeenCalledWith(
+      'https://pokeapi.co/api/v2/pokemon/?offset=0&limit=20'
+    );
+    expect(getDescription).toHaveBeenCalledTimes(2);
+    expect(setResults).toHaveBeenCalledWith(mockDescriptions);
+    expect(setLoading).toHaveBeenCalledWith(false);
   });
 });

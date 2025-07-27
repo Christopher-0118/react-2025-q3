@@ -1,0 +1,20 @@
+.pagination {
+  width: 75%;
+}
+
+.pagination a {
+  color: black;
+  padding: 3px 8px;
+  text-decoration: none;
+}
+
+.pagination a.active {
+  background-color: #c47b25;
+  color: white;
+  border-radius: 5px;
+}
+
+.pagination a:hover:not(.active) {
+  background-color: #ddd;
+  border-radius: 5px;
+}

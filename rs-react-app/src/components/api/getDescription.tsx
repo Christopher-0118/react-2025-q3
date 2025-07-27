@@ -1,5 +1,3 @@
-// src/api/getDescription.ts
-
 import { getResult } from './getResult';
 import type { Pokemon, Result } from '../../type';
 
