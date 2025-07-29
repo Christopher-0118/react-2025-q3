@@ -1,10 +1,13 @@
 import { getResult } from './getResult';
 import { getDescription } from './getDescription';
-import type {
-  Pokemon,
-  PokemonListItem,
-  PokemonResponse,
-  Result,
+import {
+  BASE_PAGE,
+  BASE_URL,
+  ELEMENTS_PER_PAGE,
+  type Pokemon,
+  type PokemonListItem,
+  type PokemonResponse,
+  type Result,
 } from '../../type';
 
 const FetchData = async (
@@ -12,10 +15,9 @@ const FetchData = async (
   setResults: (res: Result[]) => void,
   setError: (err: string | null) => void,
   setLoading: (loading: boolean) => void,
-  page: number = 1,
-  limit: number = 20
+  page: number = BASE_PAGE,
+  limit: number = ELEMENTS_PER_PAGE
 ) => {
-  const BASE_URL = 'https://pokeapi.co/api/v2/pokemon/';
   const offset = (page - 1) * limit;
   const paginatedURL = `${BASE_URL}?offset=${offset}&limit=${limit}`;
   try {
@@ -44,10 +46,11 @@ const FetchData = async (
         },
       ];
     }
-
     setResults(results);
   } catch (error: unknown) {
-    if (error instanceof Error) setError(error.message);
+    if (error instanceof Error) {
+      setError(error.message);
+    }
   } finally {
     setLoading(false);
   }

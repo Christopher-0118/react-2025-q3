@@ -1,5 +1,8 @@
 import type { ReactNode } from 'react';
 
+export const BASE_URL = 'https://pokeapi.co/api/v2/pokemon/';
+export const ELEMENTS_PER_PAGE = 20;
+export const BASE_PAGE = 1;
 export type PokemonResponse = {
   count: number;
   results: PokemonListItem[];
@@ -33,7 +36,6 @@ export type FormProps = {
 export type PaginationProps = {
   currentPage: number;
   allPages: number;
-  // OnPageChange: (page: number) => void;
 };
 
 export type ErrorBoundaryState = {
