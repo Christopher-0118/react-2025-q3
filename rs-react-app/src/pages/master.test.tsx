@@ -2,8 +2,8 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
-import App from './App';
-import FetchData from './components/api/fetch';
+import MasterPage from './master-page';
+import FetchData from '../components/api/fetch';
 import { MemoryRouter } from 'react-router-dom';
 
 vi.mock('./components/api/fetch', () => ({
@@ -16,7 +16,7 @@ vi.mock('./hooks/useLocalStorage', () => {
   };
 });
 
-describe('App Integration', () => {
+describe('MasterPage Integration', () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
@@ -27,7 +27,7 @@ describe('App Integration', () => {
 
     render(
       <MemoryRouter initialEntries={['/']}>
-        <App />
+        <MasterPage />
       </MemoryRouter>
     );
 
@@ -59,7 +59,7 @@ describe('App Integration', () => {
 
     render(
       <MemoryRouter initialEntries={['/?page=1']}>
-        <App />
+        <MasterPage />
       </MemoryRouter>
     );
 
