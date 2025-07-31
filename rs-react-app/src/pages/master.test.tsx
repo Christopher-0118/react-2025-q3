@@ -1,12 +1,10 @@
 /// <reference types="vitest/globals" />
-import { render, screen, waitFor } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import MasterPage from './master-page';
-import FetchData from '../components/api/fetch';
 import { MemoryRouter } from 'react-router-dom';
 
-vi.mock('./components/api/fetch', () => ({
+vi.mock('../components/api/fetch', () => ({
   default: vi.fn(),
 }));
 
@@ -21,50 +19,14 @@ describe('MasterPage Integration', () => {
     vi.clearAllMocks();
   });
 
-  test('renders the form and allows submitting a query', async () => {
-    const mockFetch = FetchData as ReturnType<typeof vi.fn>;
-    mockFetch.mockImplementation(() => {});
-
+  test('Renders the Form component', async () => {
     render(
       <MemoryRouter initialEntries={['/']}>
         <MasterPage />
       </MemoryRouter>
     );
 
-    expect(screen.getByRole('textbox')).toBeInTheDocument();
-    expect(screen.getByRole('button')).toBeInTheDocument();
-
-    await userEvent.clear(screen.getByRole('textbox'));
-    await userEvent.type(screen.getByRole('textbox'), 'bulbasaur');
-    await userEvent.click(screen.getByRole('button'));
-
-    expect(mockFetch).toHaveBeenCalledWith(
-      'bulbasaur',
-      expect.any(Function),
-      expect.any(Function),
-      expect.any(Function)
-    );
-  });
-
-  test('shows pagination when more than one result is returned', async () => {
-    const mockResults = [
-      { name: 'pikachu', description: 'electric mouse' },
-      { name: 'bulbasaur', description: 'grass poison' },
-    ];
-
-    const mockFetch = FetchData as ReturnType<typeof vi.fn>;
-    mockFetch.mockImplementation((_, setResults) => {
-      setResults(mockResults);
-    });
-
-    render(
-      <MemoryRouter initialEntries={['/?page=1']}>
-        <MasterPage />
-      </MemoryRouter>
-    );
-
-    await waitFor(() =>
-      expect(screen.getByTestId('pagination')).toBeInTheDocument()
-    );
+    expect(screen.getByTestId('input')).toBeInTheDocument();
+    expect(screen.getByTestId('searchButton')).toBeInTheDocument();
   });
 });

@@ -1,4 +1,4 @@
-import type { ResultsList } from '../../type';
+import type { ResultsList } from '../api/type';
 import Card from '../card/card';
 import './card-list.css';
 

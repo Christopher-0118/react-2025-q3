@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { type Result } from '../type';
+import { type Result } from '../components/api/type';
 import Form from '../components/form/form';
 import CardList from '../components/card-list/card-list';
 import FetchData from '../components/api/fetch';
@@ -7,6 +7,7 @@ import useLocalStorage from '../hooks/useLocalStorage';
 import Pagination from '../components/pagination/pagination';
 import { Outlet, useSearchParams } from 'react-router-dom';
 import './master.css';
+import Loading from '../components/loading-progress.tsx/loading';
 
 const MasterPage = () => {
   const [searchQuery, setSearchQuery] = useLocalStorage('savedQuery', '');
@@ -23,7 +24,7 @@ const MasterPage = () => {
   };
 
   const content = () => {
-    if (loading) return <p>Loading...</p>;
+    if (loading) return <Loading />;
     if (error) return <p style={{ color: 'red' }}>{error}</p>;
     if (Array.isArray(results) && results.length)
       return <CardList results={results} />;

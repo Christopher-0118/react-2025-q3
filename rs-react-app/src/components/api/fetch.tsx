@@ -1,14 +1,16 @@
 import { getResult } from './getResult';
 import { getDescription } from './getDescription';
 import {
-  BASE_PAGE,
-  BASE_URL,
-  ELEMENTS_PER_PAGE,
-  type Pokemon,
   type PokemonListItem,
   type PokemonResponse,
   type Result,
-} from '../../type';
+} from './type';
+import {
+  BASE_PAGE,
+  BASE_URL,
+  ELEMENTS_PER_PAGE,
+  DESCRIPTION,
+} from './constant';
 
 const FetchData = async (
   term: string,
@@ -16,7 +18,8 @@ const FetchData = async (
   setError: (err: string | null) => void,
   setLoading: (loading: boolean) => void,
   page: number = BASE_PAGE,
-  limit: number = ELEMENTS_PER_PAGE
+  limit: number = ELEMENTS_PER_PAGE,
+  mode: string = DESCRIPTION
 ) => {
   const offset = (page - 1) * limit;
   const paginatedURL = `${BASE_URL}?offset=${offset}&limit=${limit}`;
@@ -32,20 +35,15 @@ const FetchData = async (
 
       if (!data) throw new Error('expected an array');
       const promises = await data.results.map((pokemon: PokemonListItem) =>
-        getDescription(pokemon.url)
+        getDescription(pokemon.url, mode)
       );
 
       results = await Promise.all(promises);
     } else {
-      const data = await getResult<Pokemon>(BASE_URL.concat(query));
-
-      results = [
-        {
-          name: data.name,
-          description: `Weight: ${data.weight}, Height: ${data.height}`,
-        },
-      ];
+      const result = await getDescription(BASE_URL.concat(query), mode);
+      results = [result];
     }
+
     setResults(results);
   } catch (error: unknown) {
     if (error instanceof Error) {

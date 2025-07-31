@@ -2,7 +2,7 @@ const About = () => {
   return (
     <>
       <h2>Hi! Im Kristina</h2>
-      <div className="about">
+      <div className="about" data-testid="links">
         <a
           className="link link_github"
           href="https://github.com/Christopher-0118?tab=repositories"

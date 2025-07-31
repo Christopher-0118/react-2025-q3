@@ -1,5 +1,5 @@
 import { useState, type ChangeEvent, type FormEvent } from 'react';
-import type { FormProps } from '../../type';
+import type { FormProps } from './type';
 import './form.css';
 
 const Form = ({ onSubmit, defaultValue = '' }: FormProps) => {
@@ -22,7 +22,9 @@ const Form = ({ onSubmit, defaultValue = '' }: FormProps) => {
         placeholder="Type the full name of the Pokémon"
         data-testid="input"
       ></input>
-      <button className="search-button">Search</button>
+      <button className="search-button" data-testid="searchButton">
+        Search
+      </button>
     </form>
   );
 };

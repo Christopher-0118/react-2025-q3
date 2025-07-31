@@ -1,5 +1,5 @@
 import { useNavigate, useLocation } from 'react-router-dom';
-import type { PaginationProps } from '../../type';
+import type { PaginationProps } from './type';
 import './pagination.css';
 
 const Pagination = ({ currentPage, allPages }: PaginationProps) => {
@@ -25,8 +25,8 @@ const Pagination = ({ currentPage, allPages }: PaginationProps) => {
           data-testid="page"
           href="#"
           className={page === currentPage ? 'active' : ''}
-          onClick={(e) => {
-            e.preventDefault();
+          onClick={(event) => {
+            event.preventDefault();
             handleClick(page);
           }}
         >

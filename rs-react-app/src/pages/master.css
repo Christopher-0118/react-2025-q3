@@ -30,6 +30,25 @@
 
 .right-side {
   width: 50%;
+  height: 40%;
+  display: flex;
+  border-radius: 8px
+}
+
+.details {
+  display: flex;
+  flex-direction: column;
+  
+}
+.details p {
+  color: #c47b25;
+}
+
+.close-button {
+  height:15%;
+  background-color: rgba(254, 254, 254, 0);
+  color: #c47b25;
+  font-weight: 1000;
 }
 
 .about {

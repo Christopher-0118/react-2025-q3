@@ -1,5 +1,5 @@
 const ErrorPage = () => {
-  return <p>Eeeeeeerror, Error</p>;
+  return <p data-testid="error-message">Eeeeeeerror, Error</p>;
 };
 
 export default ErrorPage;

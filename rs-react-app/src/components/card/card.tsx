@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import type { Result } from '../../type';
+import type { Result } from '../api/type';
 import './card.css';
 
 const Card = ({ name, description }: Result) => {
