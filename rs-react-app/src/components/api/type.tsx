@@ -9,6 +9,7 @@ export type PokemonListItem = {
 };
 
 export type Pokemon = {
+  id: number;
   name: string;
   weight: number;
   height: number;
@@ -20,6 +21,7 @@ export type Pokemon = {
 };
 
 export type Result = {
+  id: number;
   name: string;
   description: string;
 };
