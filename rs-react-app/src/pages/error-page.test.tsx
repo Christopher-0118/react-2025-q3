@@ -1,17 +1,16 @@
 /// <reference types="vitest/globals" />
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import Card from './card';
+import ErrorPage from './error-page';
 import { MemoryRouter } from 'react-router-dom';
 
 describe('Rendering Tests', () => {
   test('Displays item name and description correctly', () => {
     render(
-      <MemoryRouter>
-        <Card name={'bulbasaur'} description={'Weight: 69, Height: 7'} />
+      <MemoryRouter initialEntries={['*']}>
+        <ErrorPage />
       </MemoryRouter>
     );
-    expect(screen.getByText('bulbasaur')).toBeInTheDocument();
-    expect(screen.getByText('Weight: 69, Height: 7')).toBeInTheDocument();
+    expect(screen.getByTestId('error-message')).toBeInTheDocument();
   });
 });

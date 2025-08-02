@@ -1,5 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import CardList from './card-list';
+import { MemoryRouter } from 'react-router-dom';
 
 describe('Rendering Tests', () => {
   const mockResults = [
@@ -8,7 +9,11 @@ describe('Rendering Tests', () => {
   ];
 
   test('Renders correct number of items when data is provided', () => {
-    render(<CardList results={mockResults} />);
+    render(
+      <MemoryRouter>
+        <CardList results={mockResults} />
+      </MemoryRouter>
+    );
 
     const cardsCount = screen.getAllByTestId('card');
 
