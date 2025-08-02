@@ -15,6 +15,7 @@ export const getDescription = async (
   if (mode === DETAILS && detailData.abilities) {
     const abilities = detailData.abilities.map((abils) => abils.ability.name);
     return {
+      id: detailData.id,
       name: detailData.name,
       description: `Ability:\n ${abilities.join('\n')}`,
     };
@@ -24,10 +25,11 @@ export const getDescription = async (
     throw new Error('Incomplete Pokémon data');
   }
 
-  const { weight, height } = detailData;
+  const { id, name, weight, height } = detailData;
 
   return {
-    name: detailData.name,
+    id: id,
+    name: name,
     description: `Weight: ${weight}, Height: ${height}`,
   };
 };
