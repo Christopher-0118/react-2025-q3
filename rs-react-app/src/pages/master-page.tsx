@@ -8,6 +8,8 @@ import Pagination from '../components/pagination/pagination';
 import { Outlet, useSearchParams } from 'react-router-dom';
 import './master.css';
 import Loading from '../components/loading-progress.tsx/loading';
+import Flyout from '../components/flyout/flyout';
+import { ELEMENTS_PER_PAGE } from '../components/api/constant';
 
 const MasterPage = () => {
   const [searchQuery, setSearchQuery] = useLocalStorage('savedQuery', '');
@@ -16,7 +18,7 @@ const MasterPage = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [searchParams] = useSearchParams();
   const page = parseInt(searchParams.get('page') || '1', 10);
-  const limit = 20;
+  const limit = ELEMENTS_PER_PAGE;
 
   const handleSubmit = (query: string): void => {
     setSearchQuery(query);
@@ -32,7 +34,7 @@ const MasterPage = () => {
 
   useEffect(() => {
     FetchData(searchQuery, setResults, setError, setLoading, page, limit);
-  }, [searchQuery, page]);
+  }, [searchQuery, page, limit]);
 
   return (
     <>
@@ -46,6 +48,7 @@ const MasterPage = () => {
         </div>
         <div className="right-side">
           <Outlet />
+          <Flyout />
         </div>
       </main>
     </>
