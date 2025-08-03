@@ -5,6 +5,7 @@ import MasterPage from './master-page';
 import { MemoryRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { store } from '../store/store';
+import { ThemeProvider } from '../context/theme-context';
 
 vi.mock('../components/api/fetch', () => ({
   default: vi.fn(),
@@ -25,7 +26,9 @@ describe('MasterPage Integration', () => {
     render(
       <Provider store={store}>
         <MemoryRouter initialEntries={['/']}>
-          <MasterPage />
+          <ThemeProvider>
+            <MasterPage />
+          </ThemeProvider>
         </MemoryRouter>
       </Provider>
     );

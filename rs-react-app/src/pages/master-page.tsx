@@ -10,6 +10,7 @@ import './master.css';
 import Loading from '../components/loading-progress.tsx/loading';
 import Flyout from '../components/flyout/flyout';
 import { ELEMENTS_PER_PAGE } from '../components/api/constant';
+import ThemeToggle from '../components/theme-toggle/theme-toggle';
 
 const MasterPage = () => {
   const [searchQuery, setSearchQuery] = useLocalStorage('savedQuery', '');
@@ -40,6 +41,7 @@ const MasterPage = () => {
     <>
       <header className="header">
         <Form onSubmit={handleSubmit} defaultValue={searchQuery} />
+        <ThemeToggle />
       </header>
       <main className="main">
         <div className="left-side">
