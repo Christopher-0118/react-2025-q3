@@ -1,5 +1,5 @@
 import { configureStore, createSlice } from '@reduxjs/toolkit';
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import Flyout from './flyout';
 import { Provider } from 'react-redux';
@@ -51,5 +51,47 @@ describe('Flyout integration', () => {
 
     expect(screen.getByTestId('flyout')).toBeInTheDocument();
     expect(screen.getByText(/Selected: 1/i)).toBeInTheDocument();
+  });
+});
+
+describe('Download', () => {
+  test('File name is correct', () => {
+    const createObjectURLMock = vi.fn(() => 'blob:http://localhost/mock-url');
+    const revokeObjectURLMock = vi.fn();
+    global.URL.createObjectURL = createObjectURLMock;
+    global.URL.revokeObjectURL = revokeObjectURLMock;
+
+    const store = setupStore({
+      item: {
+        items: [
+          { id: 25, name: 'pikachu', description: 'Weight: 60, Height: 4' },
+        ],
+      },
+    });
+
+    render(
+      <Provider store={store}>
+        <Flyout />
+      </Provider>
+    );
+
+    const downloadButton = screen.getByTestId('download-button');
+    const clickMock = vi.fn();
+    const link = document.createElement('a');
+    link.click = clickMock;
+    document.body.appendChild(link);
+
+    const anchor = screen.getByTestId('hidden-link');
+    if (anchor instanceof HTMLAnchorElement) {
+      Object.defineProperty(anchor, 'click', {
+        value: clickMock,
+      });
+
+      fireEvent.click(downloadButton);
+
+      expect(createObjectURLMock).toHaveBeenCalled();
+      expect(clickMock).toHaveBeenCalled();
+      expect(anchor.download).toBe('1_items.csv');
+    }
   });
 });
