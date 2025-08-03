@@ -3,11 +3,14 @@ import type { Result } from '../api/type';
 import './card.css';
 import { addItem, deleteItem } from '../../store/item-slice';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
+import { useAppSelector } from '../../hooks/useAppSelector';
 
 const Card = ({ id, name, description }: Result) => {
   const item = { id, name, description };
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const selectedItem = useAppSelector((state) => state.item.items);
+  const isChecked = selectedItem.some((item) => item.id === id);
   const handleClick = (): void => {
     navigate(`/pokemon/${name}/details`);
   };
@@ -29,6 +32,7 @@ const Card = ({ id, name, description }: Result) => {
       <input
         type="checkbox"
         data-testid="checkbox"
+        checked={isChecked}
         onChange={handleChecked}
       ></input>
     </div>

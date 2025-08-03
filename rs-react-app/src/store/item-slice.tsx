@@ -1,14 +1,5 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
-
-export interface Item {
-  id: number;
-  name: string;
-  description: string;
-}
-
-interface ItemsState {
-  items: Item[];
-}
+import type { Item, ItemsState } from './type';
 
 const initialState: ItemsState = {
   items: [],
