@@ -1,8 +1,15 @@
 .item {
   height: 4.62%;
+  padding: 0 5%;
   font-size: 12px;
   border-bottom: 1px solid #ccc;
   display: flex;
   align-items: center;
+  justify-content: space-between;
+}
+
+.description {
+  width: 90%;
+  display: flex;
   justify-content: space-around;
 }
