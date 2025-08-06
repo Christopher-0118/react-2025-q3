@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import type { Result } from '../components/api/type';
-import FetchData from '../components/api/fetch';
+import fetchData from '../components/api/fetch';
 import Loading from '../components/loading-progress.tsx/loading';
 import { DETAILS } from '../components/api/constant';
 
 const DetailsPage = () => {
   const navigate = useNavigate();
   const { name } = useParams();
-  const [result, setResult] = useState<Result[]>([]);
+  const [result, setResults] = useState<Result[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const handleClick = () => {
@@ -18,7 +18,15 @@ const DetailsPage = () => {
   useEffect(() => {
     if (!name) return;
 
-    FetchData(name, setResult, setError, setLoading, 1, 1, DETAILS);
+    fetchData({
+      term: name,
+      setResults,
+      setError,
+      setLoading,
+      page: 1,
+      limit: 1,
+      mode: DETAILS,
+    });
   }, [name]);
 
   if (loading) return <Loading />;

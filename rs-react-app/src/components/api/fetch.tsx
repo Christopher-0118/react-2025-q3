@@ -1,6 +1,7 @@
 import { getResult } from './getResult';
 import { getDescription } from './getDescription';
 import {
+  type FetchArgs,
   type PokemonListItem,
   type PokemonResponse,
   type Result,
@@ -12,15 +13,15 @@ import {
   DESCRIPTION,
 } from './constant';
 
-const FetchData = async (
-  term: string,
-  setResults: (res: Result[]) => void,
-  setError: (err: string | null) => void,
-  setLoading: (loading: boolean) => void,
-  page: number = BASE_PAGE,
-  limit: number = ELEMENTS_PER_PAGE,
-  mode: string = DESCRIPTION
-) => {
+const fetchData = async ({
+  term,
+  setResults,
+  setError,
+  setLoading,
+  page = BASE_PAGE,
+  limit = ELEMENTS_PER_PAGE,
+  mode = DESCRIPTION,
+}: FetchArgs) => {
   const offset = (page - 1) * limit;
   const paginatedURL = `${BASE_URL}?offset=${offset}&limit=${limit}`;
   try {
@@ -54,4 +55,4 @@ const FetchData = async (
   }
 };
 
-export default FetchData;
+export default fetchData;

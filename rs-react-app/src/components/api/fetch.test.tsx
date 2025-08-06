@@ -1,6 +1,6 @@
 /// <reference types="vitest/globals" />
 import '@testing-library/jest-dom';
-import FetchData from './fetch';
+import fetchData from './fetch';
 
 const setResults = vi.fn();
 const setError = vi.fn();
@@ -21,7 +21,7 @@ describe('API integration Tests', () => {
     });
 
     global.fetch = mockGetResult;
-    await FetchData('pikachu', setResults, setError, setLoading);
+    await fetchData({ term: 'pikachu', setResults, setError, setLoading });
 
     expect(setLoading).toHaveBeenCalledWith(true);
     expect(mockGetResult).toHaveBeenCalledWith(
@@ -67,7 +67,14 @@ describe('API integration Tests', () => {
 
     global.fetch = mockGetResult;
 
-    await FetchData('', setResults, setError, setLoading, 1, 20);
+    await fetchData({
+      term: '',
+      setResults,
+      setError,
+      setLoading,
+      page: 1,
+      limit: 20,
+    });
 
     expect(mockGetResult).toHaveBeenCalledWith(
       'https://pokeapi.co/api/v2/pokemon/?offset=0&limit=20'
@@ -82,7 +89,14 @@ describe('API integration Tests', () => {
       status: 503,
     });
 
-    await FetchData('', setResults, setError, setLoading, 1, 20);
+    await fetchData({
+      term: '',
+      setResults,
+      setError,
+      setLoading,
+      page: 1,
+      limit: 20,
+    });
     expect(setLoading).toHaveBeenCalledWith(true);
     expect(setError).toHaveBeenCalledWith('Error: 503');
     expect(setLoading).toHaveBeenCalledWith(false);

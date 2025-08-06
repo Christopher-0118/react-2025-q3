@@ -2,7 +2,7 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
-import FetchData from '../components/api/fetch';
+import fetchData from '../components/api/fetch';
 import DetailsPage from './detail-page';
 import * as router from 'react-router-dom';
 
@@ -23,11 +23,11 @@ describe('Rendering Tests', () => {
     vi.clearAllMocks();
   });
   test('DetailsPage renders', async () => {
-    const mockFetch = FetchData as ReturnType<typeof vi.fn>;
+    const mockFetch = fetchData as ReturnType<typeof vi.fn>;
 
-    mockFetch.mockImplementation((_name, setResult, _err, setLoading) => {
+    mockFetch.mockImplementation(({ setResults, setLoading }) => {
       setLoading(false);
-      setResult([{ name: 'pikachu', description: 'electric mouse' }]);
+      setResults([{ name: 'pikachu', description: 'electric mouse' }]);
     });
 
     render(
@@ -49,7 +49,7 @@ describe('Rendering Tests', () => {
         </Routes>
       </MemoryRouter>
     );
-    expect(FetchData).toHaveBeenCalled();
+    expect(fetchData).toHaveBeenCalled();
   });
 
   test('Button closes details page', () => {

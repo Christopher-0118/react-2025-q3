@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { type Result } from '../components/api/type';
-import Form from '../components/form/form';
+import Search from '../components/search/search';
 import CardList from '../components/card-list/card-list';
-import FetchData from '../components/api/fetch';
+import fetchData from '../components/api/fetch';
 import useLocalStorage from '../hooks/useLocalStorage';
 import Pagination from '../components/pagination/pagination';
 import { Outlet, useSearchParams } from 'react-router-dom';
@@ -23,7 +23,7 @@ const MasterPage = () => {
 
   const handleSubmit = (query: string): void => {
     setSearchQuery(query);
-    FetchData(query, setResults, setError, setLoading);
+    fetchData({ term: query, setResults, setError, setLoading });
   };
 
   const content = () => {
@@ -34,13 +34,20 @@ const MasterPage = () => {
   };
 
   useEffect(() => {
-    FetchData(searchQuery, setResults, setError, setLoading, page, limit);
+    fetchData({
+      term: searchQuery,
+      setResults,
+      setError,
+      setLoading,
+      page,
+      limit,
+    });
   }, [searchQuery, page, limit]);
 
   return (
     <>
       <header className="header">
-        <Form onSubmit={handleSubmit} defaultValue={searchQuery} />
+        <Search onSubmit={handleSubmit} defaultValue={searchQuery} />
         <ThemeToggle />
       </header>
       <main className="main">
