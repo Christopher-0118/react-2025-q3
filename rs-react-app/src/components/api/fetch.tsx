@@ -11,7 +11,7 @@ import {
   BASE_URL,
   ELEMENTS_PER_PAGE,
   DESCRIPTION,
-} from './constant';
+} from '../../store/constant';
 
 const fetchData = async ({
   term,

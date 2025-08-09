@@ -1,4 +1,4 @@
-import { DETAILS } from './constant';
+import { DETAILS } from '../../store/constant';
 import { getResult } from './getResult';
 import type { Pokemon, Result } from './type';
 

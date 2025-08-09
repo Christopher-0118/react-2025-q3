@@ -9,7 +9,7 @@ import { Outlet, useSearchParams } from 'react-router-dom';
 import './master.css';
 import Loading from '../components/loading-progress.tsx/loading';
 import Flyout from '../components/flyout/flyout';
-import { ELEMENTS_PER_PAGE } from '../components/api/constant';
+import { ELEMENTS_PER_PAGE } from '../store/constant';
 import ThemeToggle from '../components/theme-toggle/theme-toggle';
 
 const MasterPage = () => {

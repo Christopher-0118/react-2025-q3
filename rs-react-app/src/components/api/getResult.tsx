@@ -1,4 +1,8 @@
-export const getResult = async <T = unknown,>(query: string): Promise<T> => {
+import type { PokemonListItem } from './type';
+
+export const getResult = async <T = PokemonListItem,>(
+  query: string
+): Promise<T> => {
   const res = await fetch(query);
 
   if (!res.ok) {

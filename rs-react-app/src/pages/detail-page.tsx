@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import type { Result } from '../components/api/type';
 import fetchData from '../components/api/fetch';
 import Loading from '../components/loading-progress.tsx/loading';
-import { DETAILS } from '../components/api/constant';
+import { DETAILS } from '../store/constant';
 
 const DetailsPage = () => {
   const navigate = useNavigate();

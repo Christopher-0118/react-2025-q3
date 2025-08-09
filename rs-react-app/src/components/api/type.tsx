@@ -1,7 +1,7 @@
-import type { DESCRIPTION, DETAILS } from './constant';
+import type { DESCRIPTION, DETAILS } from '../../store/constant';
 
 export type PokemonResponse = {
-  count: number;
+  // count: number;
   results: PokemonListItem[];
 };
 
@@ -21,6 +21,10 @@ export type Pokemon = {
     };
   }[];
 };
+
+export type PokemonDescription = Pick<Pokemon, 'name' | 'height' | 'weight'>;
+
+export type PokemonDetails = Pick<Pokemon, 'id' | 'abilities'>;
 
 export type Result = {
   id: number;
