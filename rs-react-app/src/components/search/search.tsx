@@ -1,8 +1,8 @@
 import { useState, type ChangeEvent, type FormEvent } from 'react';
-import type { FormProps } from './type';
-import './form.css';
+import type { SearchProps } from './type';
+import './search.css';
 
-const Form = ({ onSubmit, defaultValue = '' }: FormProps) => {
+const Search = ({ onSubmit, defaultValue = '' }: SearchProps) => {
   const [query, setQuery] = useState<string>(defaultValue);
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -29,4 +29,4 @@ const Form = ({ onSubmit, defaultValue = '' }: FormProps) => {
   );
 };
 
-export default Form;
+export default Search;

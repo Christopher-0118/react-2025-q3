@@ -1,52 +1,60 @@
-import { useEffect, useState } from 'react';
-import { type Result } from '../components/api/type';
-import Form from '../components/form/form';
+import Search from '../components/search/search';
 import CardList from '../components/card-list/card-list';
-import FetchData from '../components/api/fetch';
 import useLocalStorage from '../hooks/useLocalStorage';
 import Pagination from '../components/pagination/pagination';
 import { Outlet, useSearchParams } from 'react-router-dom';
-import './master.css';
 import Loading from '../components/loading-progress.tsx/loading';
 import Flyout from '../components/flyout/flyout';
-import { ELEMENTS_PER_PAGE } from '../components/api/constant';
+import { ELEMENTS_PER_PAGE } from '../store/constant';
 import ThemeToggle from '../components/theme-toggle/theme-toggle';
+import {
+  useGetItemDescriptionQuery,
+  useGetListItemQuery,
+} from '../store/api-slice';
+import './master.css';
 
 const MasterPage = () => {
   const [searchQuery, setSearchQuery] = useLocalStorage('savedQuery', '');
-  const [results, setResults] = useState<Result[]>([]);
-  const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState<boolean>(false);
   const [searchParams] = useSearchParams();
   const page = parseInt(searchParams.get('page') || '1', 10);
-  const limit = ELEMENTS_PER_PAGE;
+
+  const listItems = useGetListItemQuery({
+    page: page,
+    limit: ELEMENTS_PER_PAGE,
+  });
+  const item = useGetItemDescriptionQuery(
+    { name: searchQuery },
+    { skip: !searchQuery }
+  );
+
+  const data = searchQuery ? item.data : listItems.data;
+  const error = searchQuery ? item.error : listItems.error;
+  const isLoading = searchQuery ? item.isLoading : listItems.isLoading;
 
   const handleSubmit = (query: string): void => {
-    setSearchQuery(query);
-    FetchData(query, setResults, setError, setLoading);
+    setSearchQuery(query.trim().toLowerCase());
   };
 
   const content = () => {
-    if (loading) return <Loading />;
-    if (error) return <p style={{ color: 'red' }}>{error}</p>;
-    if (Array.isArray(results) && results.length)
-      return <CardList results={results} />;
+    if (isLoading) return <Loading />;
+    if (error)
+      return <p style={{ color: 'red' }}>`Error: Pokémon not found`</p>;
+    if (data && Array.isArray(data.results))
+      return <CardList results={data.results} />;
   };
-
-  useEffect(() => {
-    FetchData(searchQuery, setResults, setError, setLoading, page, limit);
-  }, [searchQuery, page, limit]);
 
   return (
     <>
       <header className="header">
-        <Form onSubmit={handleSubmit} defaultValue={searchQuery} />
+        <Search onSubmit={handleSubmit} defaultValue={searchQuery} />
         <ThemeToggle />
       </header>
       <main className="main">
         <div className="left-side">
           {content()}
-          {results.length > 1 && <Pagination currentPage={page} allPages={6} />}
+          {!searchQuery && data && data.results.length > 1 && (
+            <Pagination currentPage={page} allPages={6} />
+          )}
         </div>
         <div className="right-side">
           <Outlet />
