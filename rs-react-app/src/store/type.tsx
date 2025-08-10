@@ -1,3 +1,12 @@
+export type PokemonResponseList = {
+  results: PokemonResponseItem[];
+};
+
+export type PokemonResponseItem = {
+  name: string;
+  url: string;
+};
+
 export type Item = {
   id: number;
   name: string;
@@ -6,18 +15,6 @@ export type Item = {
 
 export type ItemsState = {
   items: Item[];
-};
-
-import type { DESCRIPTION, DETAILS } from './constant';
-
-export type PokemonResponse = {
-  count: number;
-  results: PokemonListItem[];
-};
-
-export type PokemonListItem = {
-  name: string;
-  url: string;
 };
 
 export type Pokemon = {
@@ -40,14 +37,4 @@ export type Result = {
 
 export type ResultsList = {
   results: Result[];
-};
-
-export type FetchArgs = {
-  term: string;
-  setResults: (res: Result[]) => void;
-  setError: (error: string | null) => void;
-  setLoading: (loading: boolean) => void;
-  page?: number;
-  limit?: number;
-  mode?: typeof DESCRIPTION | typeof DETAILS;
 };

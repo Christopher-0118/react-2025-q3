@@ -1,43 +1,29 @@
-import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import type { Result } from '../components/api/type';
-import fetchData from '../components/api/fetch';
 import Loading from '../components/loading-progress.tsx/loading';
-import { DETAILS } from '../store/constant';
+import { useGetItemDetailsQuery } from '../store/api-slice';
 
 const DetailsPage = () => {
   const navigate = useNavigate();
   const { name } = useParams();
-  const [result, setResults] = useState<Result[]>([]);
-  const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
   const handleClick = () => {
     navigate('/');
   };
+  if (!name) throw new Error('Cannot take a name');
+  const { data, error, isLoading } = useGetItemDetailsQuery({ name });
 
-  useEffect(() => {
-    if (!name) return;
-
-    fetchData({
-      term: name,
-      setResults,
-      setError,
-      setLoading,
-      page: 1,
-      limit: 1,
-      mode: DETAILS,
-    });
-  }, [name]);
-
-  if (loading) return <Loading />;
-  if (error) return <p style={{ color: 'red' }}>{error}</p>;
-  if (!result.length) return null;
+  if (isLoading) return <Loading />;
+  if (error) return <p style={{ color: 'red' }}>Failed to fetch details</p>;
+  if (!data) return null;
 
   return (
     <>
       <div className="details" data-testid="details">
-        <h2 className="pokemon-details">{name}</h2>
-        <p className="pokemon-details">{result[0].description}</p>
+        <h2 className="pokemon-details" data-testid="details-name">
+          {name}
+        </h2>
+        <p className="pokemon-details" data-testid="details-ability">
+          {data.description}
+        </p>
       </div>
       <button
         className="close-button"
