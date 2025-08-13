@@ -12,6 +12,7 @@ import {
   useGetListItemQuery,
 } from '../store/api-slice';
 import './master.css';
+import { All_PAGES } from '../components/pagination/constatn';
 
 const MasterPage = () => {
   const [searchQuery, setSearchQuery] = useLocalStorage('savedQuery', '');
@@ -53,7 +54,7 @@ const MasterPage = () => {
         <div className="left-side">
           {content()}
           {!searchQuery && data && data.results.length > 1 && (
-            <Pagination currentPage={page} allPages={6} />
+            <Pagination currentPage={page} allPages={All_PAGES} />
           )}
         </div>
         <div className="right-side">

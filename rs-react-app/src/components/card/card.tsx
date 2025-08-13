@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import type { Result } from '../api/type';
+import type { Result } from '../../store/type';
 import './card.css';
 import { addItem, deleteItem } from '../../store/item-slice';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
