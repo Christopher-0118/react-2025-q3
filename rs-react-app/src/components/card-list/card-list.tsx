@@ -1,3 +1,4 @@
+'use client';
 import type { ResultsList } from '../../store/type';
 import Card from '../card/card';
 import './card-list.css';

@@ -1,3 +1,4 @@
+'use client';
 import { useState, type ChangeEvent, type FormEvent } from 'react';
 import type { SearchProps } from './type';
 import './search.css';

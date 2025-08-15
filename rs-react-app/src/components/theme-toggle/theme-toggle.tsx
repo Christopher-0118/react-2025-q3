@@ -1,3 +1,4 @@
+'use client';
 import { DARK, LIGHT } from './constant';
 import useAppContext from '../../hooks/useAppContext';
 

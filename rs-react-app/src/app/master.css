@@ -70,9 +70,9 @@
 
 .link_github {
   align-self: flex-end;
-  background-image: url('../src/assets/gh-logo.png');
+  background-image: url('/gh-logo.png');
 }
 
 .link_rss {
-  background-image: url('../assets/rs-logo.svg');
+  background-image: url('/rs-logo.svg');
 }

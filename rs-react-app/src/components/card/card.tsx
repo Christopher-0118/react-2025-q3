@@ -1,4 +1,5 @@
-import { useNavigate } from 'react-router-dom';
+'use client';
+import { useRouter } from 'next/navigation';
 import type { Result } from '../../store/type';
 import './card.css';
 import { addItem, deleteItem } from '../../store/item-slice';
@@ -7,12 +8,12 @@ import { useAppSelector } from '../../hooks/useAppSelector';
 
 const Card = ({ id, name, description }: Result) => {
   const item = { id, name, description };
-  const navigate = useNavigate();
+  const router = useRouter();
   const dispatch = useAppDispatch();
   const selectedItem = useAppSelector((state) => state.item.items);
   const isChecked = selectedItem.some((item) => item.id === id);
   const handleClick = (): void => {
-    navigate(`/pokemon/${name}/details`);
+    router.push(`/pokemon/${name}/details`);
   };
   const handleChecked = (event: React.ChangeEvent<HTMLInputElement>) => {
     const checkboxState = event.target.checked;

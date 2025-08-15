@@ -1,3 +1,4 @@
+'use client';
 import { useNavigate, useParams } from 'react-router-dom';
 import Loading from '../components/loading-progress.tsx/loading';
 import { useGetItemDetailsQuery } from '../store/api-slice';

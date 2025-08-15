@@ -1,8 +1,10 @@
+'use client';
 import Search from '../components/search/search';
 import CardList from '../components/card-list/card-list';
 import useLocalStorage from '../hooks/useLocalStorage';
 import Pagination from '../components/pagination/pagination';
-import { Outlet, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'next/navigation';
+// import { Outlet, useSearchParams } from 'react-router-dom';
 import Loading from '../components/loading-progress.tsx/loading';
 import Flyout from '../components/flyout/flyout';
 import { ELEMENTS_PER_PAGE } from '../store/constant';
@@ -12,11 +14,11 @@ import {
   useGetListItemQuery,
 } from '../store/api-slice';
 import './master.css';
-import { All_PAGES } from '../components/pagination/constatn';
+import { All_PAGES } from '../components/pagination/constant';
 
 const MasterPage = () => {
   const [searchQuery, setSearchQuery] = useLocalStorage('savedQuery', '');
-  const [searchParams] = useSearchParams();
+  const searchParams = useSearchParams();
   const page = parseInt(searchParams.get('page') || '1', 10);
 
   const listItems = useGetListItemQuery({
@@ -58,7 +60,7 @@ const MasterPage = () => {
           )}
         </div>
         <div className="right-side">
-          <Outlet />
+          {/* <div className="right-side"></div> */}
           <Flyout />
         </div>
       </main>
