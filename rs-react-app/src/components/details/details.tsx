@@ -1,15 +1,13 @@
 'use client';
-import { useNavigate, useParams } from 'react-router-dom';
-import Loading from '../components/loading-progress.tsx/loading';
-import { useGetItemDetailsQuery } from '../store/api-slice';
+import { useParams } from 'next/navigation';
+import Link from 'next/link';
+import Loading from '@/components/loading-progress/loading';
+import { useGetItemDetailsQuery } from '@/store/api-slice';
 
-const DetailsPage = () => {
-  const navigate = useNavigate();
+const Details = () => {
   const { name } = useParams();
-  const handleClick = () => {
-    navigate('/');
-  };
-  if (!name) throw new Error('Cannot take a name');
+
+  if (!name || Array.isArray(name)) throw new Error('Cannot take a name');
   const { data, error, isLoading } = useGetItemDetailsQuery({ name });
 
   if (isLoading) return <Loading />;
@@ -26,15 +24,13 @@ const DetailsPage = () => {
           {data.description}
         </p>
       </div>
-      <button
-        className="close-button"
-        data-testid="button"
-        onClick={handleClick}
-      >
-        ✕
-      </button>
+      <Link href="/">
+        <button className="close-button" data-testid="button">
+          ✕
+        </button>
+      </Link>
     </>
   );
 };
 
-export default DetailsPage;
+export default Details;

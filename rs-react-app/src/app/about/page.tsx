@@ -1,7 +1,8 @@
-'use client';
+import Link from 'next/link';
+
 const About = () => {
   return (
-    <>
+    <div className="about-page">
       <h2>Hi! Im Kristina</h2>
       <div className="about" data-testid="links">
         <a
@@ -14,7 +15,12 @@ const About = () => {
         ></a>
         <p>2025</p>
       </div>
-    </>
+      <Link href="/">
+        <button className="close-button" data-testid="button">
+          ✕
+        </button>
+      </Link>
+    </div>
   );
 };
 
