@@ -3,7 +3,7 @@ import Providers from '@/store/providers';
 import ErrorBoundary from '@/components/error-boundary/error-boundary';
 import { ThemeProvider } from '@/context/theme-context';
 import '@/app/global.css';
-// import Flyout from '@/components/flyout/flyout';
+import Flyout from '@/components/flyout/flyout';
 import ClientHeader from '@/components/client-header/client-header';
 
 export const metadata: Metadata = {
@@ -11,7 +11,13 @@ export const metadata: Metadata = {
   description: 'Migrated from Vite to Next.js',
 };
 
-export const RootLayout = ({ children }: { children: React.ReactNode }) => {
+export const RootLayout = ({
+  children,
+  details,
+}: {
+  children: React.ReactNode;
+  details: React.ReactNode;
+}) => {
   return (
     <html lang="en">
       <body>
@@ -22,9 +28,15 @@ export const RootLayout = ({ children }: { children: React.ReactNode }) => {
                 <header className="header">
                   <ClientHeader />
                 </header>
-                <main className="main">{children}</main>
+                <main className="main">
+                  <div className="left-side">{children}</div>
+                  <div className="right-side">
+                    {details}
+                    <Flyout />
+                  </div>
+                </main>
                 <footer>
-                  <p>© 2025 Pokémon App</p>
+                  <p>2025 Pokémon App</p>
                 </footer>
               </div>
             </ThemeProvider>

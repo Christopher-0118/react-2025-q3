@@ -1,20 +1,17 @@
 'use client';
-import { useRouter } from 'next/navigation';
 import type { Result } from '../../store/type';
 import './card.css';
 import { addItem, deleteItem } from '../../store/item-slice';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { useAppSelector } from '../../hooks/useAppSelector';
-
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 const Card = ({ id, name, description }: Result) => {
   const item = { id, name, description };
-  const router = useRouter();
   const dispatch = useAppDispatch();
   const selectedItem = useAppSelector((state) => state.item.items);
   const isChecked = selectedItem.some((item) => item.id === id);
-  const handleClick = (): void => {
-    router.push(`/pokemon/${name}/details`);
-  };
+  const router = useRouter();
   const handleChecked = (event: React.ChangeEvent<HTMLInputElement>) => {
     const checkboxState = event.target.checked;
     if (checkboxState) {
@@ -26,10 +23,17 @@ const Card = ({ id, name, description }: Result) => {
 
   return (
     <div className="item">
-      <div className={'description'} onClick={handleClick} data-testid="card">
+      <Link
+        className="description"
+        href={`/details/${name}`}
+        onClick={(e) => {
+          e.preventDefault();
+          router.push(`/details/${name}`);
+        }}
+      >
         <p>{name}</p>
         <p>{description}</p>
-      </div>
+      </Link>
       <input
         type="checkbox"
         data-testid="checkbox"

@@ -25,9 +25,7 @@ const Details = () => {
         </p>
       </div>
       <Link href="/">
-        <button className="close-button" data-testid="button">
-          ✕
-        </button>
+        <button className="close-button">✕</button>
       </Link>
     </>
   );

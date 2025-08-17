@@ -13,12 +13,10 @@ const About = () => {
           className="link link_rss"
           href="https://rs.school/courses/reactjs"
         ></a>
-        <p>2025</p>
+        <p>2025-Q3</p>
       </div>
       <Link href="/">
-        <button className="close-button" data-testid="button">
-          ✕
-        </button>
+        <button className="close-button">✕</button>
       </Link>
     </div>
   );

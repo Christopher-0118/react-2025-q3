@@ -1,10 +1,10 @@
 'use client';
-import { useRouter, usePathname, useSearchParams } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 import type { PaginationProps } from './type';
 import './pagination.css';
+import Link from 'next/link';
 
 const Pagination = ({ currentPage, allPages }: PaginationProps) => {
-  const router = useRouter();
   const pathname = usePathname();
   const params = useSearchParams();
 
@@ -14,7 +14,7 @@ const Pagination = ({ currentPage, allPages }: PaginationProps) => {
     const searchParams = new URLSearchParams(params.toString());
 
     searchParams.set('page', String(page));
-    router.push(`${pathname}?${searchParams.toString()}`);
+    return `${pathname}?${searchParams.toString()}`;
   };
 
   const pages = Array.from({ length: allPages }, (_, i) => i + 1);
@@ -22,18 +22,13 @@ const Pagination = ({ currentPage, allPages }: PaginationProps) => {
   return (
     <div className="pagination" data-testid="pagination">
       {pages.map((page) => (
-        <a
+        <Link
           key={page}
-          data-testid="page"
-          href="#"
+          href={handleClick(page)}
           className={page === currentPage ? 'active' : ''}
-          onClick={(event) => {
-            event.preventDefault();
-            handleClick(page);
-          }}
         >
           {page}
-        </a>
+        </Link>
       ))}
     </div>
   );

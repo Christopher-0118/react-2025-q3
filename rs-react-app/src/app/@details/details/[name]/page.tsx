@@ -1,7 +1,7 @@
+'use client';
+
 import Details from '@/components/details/details';
 
-const DetailsPage = () => {
+export default function DetailsSlotPage() {
   return <Details />;
-};
-
-export default DetailsPage;
+}
