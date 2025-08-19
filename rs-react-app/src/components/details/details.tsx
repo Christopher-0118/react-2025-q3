@@ -3,6 +3,7 @@ import { useParams } from 'next/navigation';
 import { Link } from '@/i18n/navigation';
 import Loading from '@/components/loading-progress/loading';
 import { useGetItemDetailsQuery } from '@/store/api-slice';
+import Image from 'next/image';
 
 const Details = () => {
   const { name } = useParams();
@@ -20,6 +21,13 @@ const Details = () => {
         <h2 className="pokemon-details" data-testid="details-name">
           {name}
         </h2>
+        <Image
+          src={data.img ?? '/pokeball.svg'}
+          alt={name}
+          width={96}
+          height={96}
+          priority
+        />
         <p className="pokemon-details" data-testid="details-ability">
           {data.description}
         </p>

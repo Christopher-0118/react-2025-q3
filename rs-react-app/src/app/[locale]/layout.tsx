@@ -31,29 +31,33 @@ export const RootLayout = async ({
     notFound();
   }
   return (
-    <NextIntlClientProvider locale={locale} messages={messages}>
-      <Providers>
-        <ErrorBoundaryCustom>
-          <ThemeProvider>
-            <div id="root">
-              <header className="header">
-                <ClientHeader />
-              </header>
-              <main className="main">
-                <div className="left-side">{children}</div>
-                <div className="right-side">
-                  <RightPane>{details}</RightPane>
-                  <Flyout />
+    <html lang={locale}>
+      <body>
+        <NextIntlClientProvider locale={locale} messages={messages}>
+          <Providers>
+            <ErrorBoundaryCustom>
+              <ThemeProvider>
+                <div id="root">
+                  <header className="header">
+                    <ClientHeader />
+                  </header>
+                  <main className="main">
+                    <div className="left-side">{children}</div>
+                    <div className="right-side">
+                      <RightPane>{details}</RightPane>
+                      <Flyout />
+                    </div>
+                  </main>
+                  <footer>
+                    <p>2025 Pokémon App</p>
+                  </footer>
                 </div>
-              </main>
-              <footer>
-                <p>2025 Pokémon App</p>
-              </footer>
-            </div>
-          </ThemeProvider>
-        </ErrorBoundaryCustom>
-      </Providers>
-    </NextIntlClientProvider>
+              </ThemeProvider>
+            </ErrorBoundaryCustom>
+          </Providers>
+        </NextIntlClientProvider>
+      </body>
+    </html>
   );
 };
 

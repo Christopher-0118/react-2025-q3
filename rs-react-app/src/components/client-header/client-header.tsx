@@ -2,7 +2,8 @@
 import Search from '@/components/search/search';
 import ThemeToggle from '@/components/theme-toggle/theme-toggle';
 import useLocalStorage from '@/hooks/useLocalStorage';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from '@/i18n/navigation';
+import { useSearchParams } from 'next/navigation';
 import LanguageToggle from '../language-toggle/language-toggle';
 
 const ClientHeader = () => {

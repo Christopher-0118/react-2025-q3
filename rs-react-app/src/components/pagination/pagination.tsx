@@ -1,8 +1,8 @@
 'use client';
-import { usePathname, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import type { PaginationProps } from './type';
 import './pagination.css';
-import { Link } from '@/i18n/navigation';
+import { usePathname, Link } from '@/i18n/navigation';
 
 const Pagination = ({ currentPage, allPages }: PaginationProps) => {
   const pathname = usePathname();

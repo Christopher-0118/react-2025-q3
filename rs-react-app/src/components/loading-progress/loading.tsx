@@ -1,4 +1,3 @@
-'use client';
 const Loading = () => {
   return (
     <div className="loading" data-testid="loading">
