@@ -1,9 +1,11 @@
 import Link from 'next/link';
+import { getTranslations } from 'next-intl/server';
 
-const About = () => {
+const About = async () => {
+  const aboutUi = await getTranslations('About');
   return (
     <div className="about-page">
-      <h2>Hi! Im Kristina</h2>
+      <h2>{aboutUi('title')}</h2>
       <div className="about" data-testid="links">
         <a
           className="link link_github"

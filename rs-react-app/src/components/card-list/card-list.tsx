@@ -1,13 +1,15 @@
+import { useTranslations } from 'next-intl';
 import type { ResultsList } from '../../store/type';
 import Card from '../card/card';
 import './card-list.css';
 
 const CardList = ({ results }: ResultsList) => {
+  const mainUi = useTranslations('Main');
   return (
     <div className="card-list">
       <div className="item item-header">
-        <strong>Item</strong>
-        <strong>Description</strong>
+        <strong>{mainUi('tableItem')}</strong>
+        <strong>{mainUi('tableDescription')}</strong>
       </div>
       {results.map((item, index) => (
         <Card

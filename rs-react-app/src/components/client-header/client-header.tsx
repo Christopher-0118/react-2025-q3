@@ -3,6 +3,7 @@ import Search from '@/components/search/search';
 import ThemeToggle from '@/components/theme-toggle/theme-toggle';
 import useLocalStorage from '@/hooks/useLocalStorage';
 import { useRouter, useSearchParams } from 'next/navigation';
+import LanguageToggle from '../language-toggle/language-toggle';
 
 const ClientHeader = () => {
   const router = useRouter();
@@ -23,6 +24,7 @@ const ClientHeader = () => {
 
   return (
     <>
+      <LanguageToggle />
       <Search onSubmit={handleSubmit} defaultValue={searchQuery} />
       <ThemeToggle />
     </>

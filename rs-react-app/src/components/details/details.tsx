@@ -1,6 +1,6 @@
 'use client';
 import { useParams } from 'next/navigation';
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
 import Loading from '@/components/loading-progress/loading';
 import { useGetItemDetailsQuery } from '@/store/api-slice';
 

@@ -6,4 +6,9 @@ export type ErrorBoundaryState = {
 
 export type ErrorBoundaryProps = {
   children: ReactNode;
+  texts?: ErrorBoundaryTexts;
+};
+
+export type ErrorBoundaryTexts = {
+  message: string;
 };
