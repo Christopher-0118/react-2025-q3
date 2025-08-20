@@ -1,3 +1,4 @@
+'use client';
 import { useRef } from 'react';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { useAppSelector } from '../../hooks/useAppSelector';

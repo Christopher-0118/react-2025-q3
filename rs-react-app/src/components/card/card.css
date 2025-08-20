@@ -9,7 +9,18 @@
 }
 
 .description {
+  color-scheme: light dark;
   width: 90%;
   display: flex;
   justify-content: space-around;
+  text-decoration: none;
+  color: var(--text-color);
+}
+
+[data-theme='light'] {
+  --text-color: #343830;
+}
+
+[data-theme='dark'] {
+  --text-color: #a69676;
 }

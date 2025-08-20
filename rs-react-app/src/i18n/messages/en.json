@@ -1,0 +1,20 @@
+{
+  "Header": {
+    "title": "Pokémon App",
+    "searchPlaceholder": "Type the full name of the Pokémon",
+    "searchButton": "Search"
+  },
+  "Main": {
+    "tableItem": "Item",
+    "tableDescription": "Description"
+  },
+  "About": {
+    "title": "Hi! I'm Kristina"
+  },
+  "NotFound": {
+    "message": "Page doesn't exist"
+  },
+  "ErrBoundary": {
+    "errMessBoundary": "Something went wrong"
+  }
+}

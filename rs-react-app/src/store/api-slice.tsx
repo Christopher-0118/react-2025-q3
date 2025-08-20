@@ -72,6 +72,8 @@ const apiSlice = createApi({
           id: response.id,
           name: response.name,
           description: `Abilities: ${abilities}`,
+          img:
+            response.sprites.other?.['official-artwork']?.front_default ?? null,
         };
       },
     }),

@@ -1,0 +1,20 @@
+{
+  "Header": {
+    "title": "Приложение Pokémon",
+    "searchPlaceholder": "Введите полное имя покемона",
+    "searchButton": "Поиск"
+  },
+  "Main": {
+    "tableItem": "Элемент",
+    "tableDescription": "Описание"
+  },
+  "About": {
+    "title": "Привет! Я Кристина"
+  },
+  "NotFound": {
+    "message": "Страница не найдена"
+  },
+  "ErrBoundary": {
+    "errMessBoundary": "Что-то пошло не по плану"
+  }
+}
