@@ -1,0 +1,33 @@
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999; 
+}
+
+.modal-dialog {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  max-width: 640px;
+  padding: 24px;
+  outline: none;
+  transform: translateY(8px);
+  opacity: 0;
+  animation: modal-in 160ms ease-out forwards;
+  display: flex;
+  flex-direction: column;
+}
+
+@keyframes modal-in {
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.close-button {
+  width: 20%;
+  text-align: center;
+  align-self: flex-end;
+}
