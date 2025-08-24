@@ -9,7 +9,6 @@ const formSlice = createSlice({
   name: 'form',
   initialState,
   reducers: {
-    // проверь тип пейлоада!
     addForm: (state, action: PayloadAction<FormPayload>) => {
       const form = {
         id: Date.now().toString(),

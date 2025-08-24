@@ -1,11 +1,12 @@
-export type FormData = {
+export type FormInputs = {
   name: string;
   age: number;
   email: string;
   password: string;
-  gender: 'Male' | 'Female' | 'Other';
-  term: boolean;
-  picture: string;
+  confirmPassword: string;
+  gender: 'male' | 'female' | 'other';
+  acceptTnC: boolean;
+  picture: string | undefined;
   country: string;
 };
 
@@ -14,7 +15,7 @@ export type Form = {
   // createdAt: number;
   // highlightUntil: number;
   source: 'UCF' | 'RHF';
-  data: FormData;
+  data: FormInputs;
 };
 
 export type FormState = {
@@ -23,7 +24,7 @@ export type FormState = {
 
 export type FormPayload = {
   source: 'UCF' | 'RHF';
-  data: FormData;
+  data: FormInputs;
 };
 
 export type CountriesState = {
