@@ -1,23 +1,23 @@
 import * as yup from 'yup';
 import React from 'react';
 import { formSchema } from '@/forms/schema';
+import { type FormInputs } from '@/store/type';
 import fileToBase64 from '@/forms/img';
 import { useAppDispatch } from '@/hooks/useFormDispatch';
 import { addForm } from '@/store/form-slice';
-import type { FormInputs } from '@/store/type';
 
 const UncontrolledForm = ({ onSuccess }: { onSuccess: () => void }) => {
   const formRef = React.useRef<HTMLFormElement>(null);
   const [errors, setErrors] = React.useState<Record<string, string>>({});
   const dispatch = useAppDispatch();
-
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setErrors({});
 
-    if (!formRef.current) return null;
+    if (!formRef.current) return;
+
     const fd = new FormData(formRef.current);
-    const raw: FormInputs = {
+    const raw = {
       name: String(fd.get('name') ?? ''),
       age: Number(fd.get('age') ?? 0),
       email: String(fd.get('email') ?? ''),
@@ -26,31 +26,32 @@ const UncontrolledForm = ({ onSuccess }: { onSuccess: () => void }) => {
       gender: fd.get('gender') as 'male' | 'female' | 'other',
       acceptTnC: fd.get('term') === 'on',
       country: String(fd.get('country') ?? ''),
-      picture: undefined,
     };
 
-    if (raw.age !== undefined && raw.age !== null) {
-      raw.age = Number(raw.age);
-    }
-
-    const file = (fd.get('picture') as File) ?? null;
-    try {
-      raw.picture = file && file.size ? await fileToBase64(file) : '';
-    } catch (err) {
-      if (err instanceof Error) {
-        setErrors((prev) => ({
-          ...prev,
-          picture: err.message || 'File error',
-        }));
+    let picture: string | undefined;
+    const file = fd.get('picture');
+    if (file instanceof File && file.size) {
+      try {
+        picture = await fileToBase64(file);
+      } catch (err) {
+        if (err instanceof Error) {
+          setErrors((prev) => ({
+            ...prev,
+            picture: err.message || 'File error',
+          }));
+        }
+        return;
       }
-      return;
     }
 
     try {
-      const validated = await formSchema.validate(raw, { abortEarly: false });
+      const validated: FormInputs = await formSchema.validate(
+        { ...raw, picture },
+        { abortEarly: false }
+      );
       dispatch(addForm({ source: 'UCF', data: validated }));
       onSuccess();
-    } catch (err: unknown) {
+    } catch (err) {
       const fieldErrors: Record<string, string> = {};
 
       if (err instanceof yup.ValidationError) {
@@ -105,13 +106,13 @@ const UncontrolledForm = ({ onSuccess }: { onSuccess: () => void }) => {
         <fieldset className="field">
           <legend>Gender</legend>
           <label>
-            <input type="radio" name="gender" value="Male" /> Male
+            <input type="radio" name="gender" value="male" /> Male
           </label>
           <label>
-            <input type="radio" name="gender" value="Female" /> Female
+            <input type="radio" name="gender" value="female" /> Female
           </label>
           <label>
-            <input type="radio" name="gender" value="Other" /> Other
+            <input type="radio" name="gender" value="other" /> Other
           </label>
           <div className="err">{errors.gender}</div>
         </fieldset>
@@ -126,7 +127,7 @@ const UncontrolledForm = ({ onSuccess }: { onSuccess: () => void }) => {
           <label>
             <input type="checkbox" name="term" /> I accept Terms & Conditions
           </label>
-          <div className="err">{errors.term}</div>
+          <div className="err">{errors.acceptTnC}</div>
         </div>
 
         <div className="field">

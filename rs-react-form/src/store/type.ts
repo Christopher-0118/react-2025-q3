@@ -6,7 +6,7 @@ export type FormInputs = {
   confirmPassword: string;
   gender: 'male' | 'female' | 'other';
   acceptTnC: boolean;
-  picture: string | undefined;
+  picture: string;
   country: string;
 };
 

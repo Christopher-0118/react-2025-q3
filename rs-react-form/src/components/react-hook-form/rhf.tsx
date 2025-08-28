@@ -1,19 +1,20 @@
 import fileToBase64 from '@/forms/img';
-import { formSchema, type FormValues, type SchemaValues } from '@/forms/schema';
+import { formSchema } from '@/forms/schema';
+import { type FormInputs } from '@/store/type';
 import { useAppDispatch } from '@/hooks/useFormDispatch';
 import { addForm } from '@/store/form-slice';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 
-export function RhfForm({ onSuccess }: { onSuccess: () => void }) {
+const RhfForm = ({ onSuccess }: { onSuccess: () => void }) => {
   const dispatch = useAppDispatch();
   const {
     register,
     handleSubmit,
     setValue,
     formState: { errors, isValid },
-  } = useForm<FormValues>({
-    resolver: yupResolver<FormValues, any, TFieldValues>(formSchema),
+  } = useForm<FormInputs>({
+    resolver: yupResolver(formSchema),
     mode: 'onChange',
     defaultValues: {
       name: '',
@@ -25,7 +26,7 @@ export function RhfForm({ onSuccess }: { onSuccess: () => void }) {
       acceptTnC: false,
       country: '',
       picture: undefined,
-    } satisfies FormValues,
+    },
   });
 
   const onFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -39,7 +40,7 @@ export function RhfForm({ onSuccess }: { onSuccess: () => void }) {
     }
   };
 
-  const onValid = (values: FormValues) => {
+  const onValid = (values: FormInputs) => {
     dispatch(addForm({ source: 'RHF', data: values }));
     onSuccess();
   };
@@ -129,4 +130,6 @@ export function RhfForm({ onSuccess }: { onSuccess: () => void }) {
       </form>
     </>
   );
-}
+};
+
+export default RhfForm;

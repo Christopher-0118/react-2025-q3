@@ -10,11 +10,12 @@ export const passwordStrength = (s: string) => ({
 export const formSchema = yup.object({
   name: yup
     .string()
+    .trim()
     .required('Required')
     .test(
       'first-upper',
       'The first letter should be uppercase',
-      (v) => !!v && /^[A-ZА-Я]/.test(v)
+      (v) => !!v && /^\p{Lu}/u.test(v)
     ),
   age: yup
     .number()
@@ -22,7 +23,7 @@ export const formSchema = yup.object({
     .integer('Integer only')
     .min(0, 'Age must be greater than or equal to 0')
     .required('Required'),
-  email: yup.string().email('Email is not valid').required('Required'),
+  email: yup.string().trim().email('Email is not valid').required('Required'),
   password: yup
     .string()
     .required('Required')
@@ -44,10 +45,6 @@ export const formSchema = yup.object({
     .boolean()
     .oneOf([true], 'You must accept Terms & Conditions')
     .required(),
-  country: yup.string().required('Select a country'),
-  picture: yup.string().optional(), // base64 dataURL
+  country: yup.string().trim().required('Select a country'),
+  picture: yup.string().defined(),
 });
-
-export type FormValues = Omit<yup.InferType<typeof formSchema>, 'picture'> & {
-  picture: string | undefined;
-};

@@ -70,6 +70,7 @@ const Modal = ({
     <div
       className="modal-backdrop"
       role="presentation"
+      data-testid="modal-backdrop"
       onMouseDown={(e) => {
         if (e.target === e.currentTarget) onClose();
       }}
